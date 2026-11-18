@@ -1,0 +1,7 @@
+@use "../abstracts" as *;
+
+// Page shell (Portfolio.tsx): the scroll-smoothed content sits above the fixed background.
+#smooth-wrapper {
+  position: relative;
+  z-index: $z-content;
+}

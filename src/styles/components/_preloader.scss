@@ -1,0 +1,65 @@
+@use "../abstracts" as *;
+
+// Intro curtain (Preloader.tsx).
+.preloader {
+  @include fill;
+  position: fixed;
+  z-index: $z-preloader;
+  pointer-events: none;
+}
+
+.preloader-panel {
+  @include fill;
+
+  &--color {
+    background-image: linear-gradient(to bottom right in oklab, #{$gold-600}, #{$orange-600}, #{$rose-500});
+  }
+
+  &--main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: $surface-deep;
+    pointer-events: auto;
+  }
+}
+
+.preloader-name {
+  @include text(5xl);
+  font-weight: 700;
+  letter-spacing: $tracking-tight;
+
+  @include up(md) {
+    @include text(7xl);
+  }
+}
+
+.preloader-bar-wrap {
+  margin-top: 2rem;
+  width: 12rem;
+  height: 1px;
+  overflow: hidden;
+  background-color: fade($ink, 10%);
+}
+
+.preloader-bar {
+  width: 100%;
+  height: 100%;
+  transform-origin: left;
+  scale: 0 1;
+  background-image: warm-gradient();
+}
+
+.preloader-count {
+  position: absolute;
+  bottom: 2rem;
+  right: 2rem;
+  @include mono(6xl);
+  font-weight: 700;
+  color: fade($ink, 10%);
+
+  @include up(md) {
+    @include text(8xl);
+  }
+}

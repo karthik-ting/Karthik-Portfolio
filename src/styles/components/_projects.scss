@@ -1,0 +1,303 @@
+@use "../abstracts" as *;
+
+// Featured projects (Projects.tsx).
+.projects {
+  @include section;
+
+  @include up(lg) {
+    overflow-x: clip;
+  }
+
+  .projects-head {
+    @include container($container-7xl);
+    width: 100%;
+  }
+
+  .projects-track {
+    @include container($container-xl);
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    perspective: 1400px;
+
+    @include up(lg) {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 2rem;
+      max-width: $container-7xl;
+    }
+  }
+
+  // ── Card ───────────────────────────────────────────────────────────────────
+  .project-inner {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow: hidden;
+    transform-origin: top;
+    transform-style: preserve-3d;
+    border: 1px solid fade($ink, 10%);
+    border-radius: $radius-2xl;
+    background-color: $surface;
+    box-shadow: shadow-2xl(fade($paper, 40%));
+    @include transition-colors(300ms);
+
+    @include up(lg) {
+      background-color: fade($surface, 90%);
+      box-shadow: none;
+    }
+  }
+
+  // Darkens a card as the next one stacks over it (mobile).
+  .stack-shade {
+    @include fill;
+    z-index: 20;
+    background-color: $black;
+    opacity: 0;
+    pointer-events: none;
+
+    @include up(lg) {
+      display: none;
+    }
+  }
+
+  // Card hover effects.
+  .project-card {
+    @include hover {
+      .project-inner {
+        border-color: fade($gold-500, 50%);
+      }
+
+      .project-media__img {
+        scale: 1.1;
+      }
+
+      .project-media__shade {
+        opacity: 1;
+      }
+
+      .project-cover__icon {
+        rotate: -6deg;
+        scale: 1.1;
+      }
+    }
+  }
+
+  // ── Media: screenshot or generated cover ───────────────────────────────────
+  .project-media {
+    position: relative;
+    height: 13rem;
+    overflow: hidden;
+
+    &__frame {
+      position: absolute;
+      inset-block: 0;
+      inset-inline: -10%;
+    }
+
+    &__img {
+      object-fit: cover;
+      @include transition-transform(700ms);
+    }
+
+    &__shade {
+      @include fill;
+      background-image: linear-gradient(to top, rgb(0 0 0 / 0.7), transparent, transparent);
+      opacity: 0;
+      transition: opacity 300ms $ease;
+    }
+  }
+
+  .project-links {
+    position: absolute;
+    right: 0.75rem;
+    top: 0.75rem;
+    z-index: $z-content;
+    display: flex;
+    gap: 0.625rem;
+  }
+
+  .project-link {
+    display: inline-flex;
+    align-items: center;
+    min-height: 2.75rem;
+    border-radius: $radius-full;
+    @include text(sm);
+    @include transition-all(300ms);
+
+    &:focus-visible {
+      outline: none;
+    }
+
+    &--github {
+      gap: 0.5rem;
+      padding-inline: 1rem;
+      border: 2px solid fade($ink, 70%);
+      background-color: fade($paper, 85%);
+      font-weight: 700;
+      color: $ink;
+      box-shadow: shadow-xl(fade($paper, 60%));
+      @include glass(12px);
+
+      @include hover {
+        translate: 0 -0.125rem;
+        border-color: $ink;
+        background-color: $ink;
+        color: $paper;
+      }
+
+      &:focus-visible {
+        box-shadow: 0 0 0 2px $paper, 0 0 0 4px $ink;
+      }
+    }
+
+    &--live {
+      gap: 0.375rem;
+      padding: 0 0.75rem 0 1rem;
+      background-image: warm-gradient();
+      font-weight: 800;
+      color: $paper;
+      box-shadow: 0 0 0 2px fade($ink, 80%), shadow-xl(fade($paper, 60%));
+
+      @include hover {
+        translate: 0 -0.125rem;
+        filter: brightness(1.1);
+
+        .project-link__arrow {
+          translate: 0.125rem -0.125rem;
+        }
+      }
+
+      &:focus-visible {
+        box-shadow: 0 0 0 4px $ink, shadow-xl(fade($paper, 60%));
+      }
+    }
+
+    &__arrow {
+      @include transition-transform(300ms);
+    }
+  }
+
+  .project-num {
+    position: absolute;
+    bottom: 0.75rem;
+    left: 1rem;
+    @include mono(5xl);
+    font-weight: 900;
+    color: fade($ink, 15%);
+  }
+
+  .project-cover {
+    position: relative;
+    height: 100%;
+    overflow: hidden;
+    background-image: linear-gradient(
+      to bottom right in oklab,
+      #{fade($gold-500, 30%)},
+      #{fade($orange-500, 20%)},
+      #{fade($rose-500, 30%)}
+    );
+
+    &__grid {
+      @include fill;
+      opacity: 0.2;
+    }
+
+    &__icon {
+      position: absolute;
+      right: -1.5rem;
+      top: -1.5rem;
+      color: fade($ink, 10%);
+      @include transition-transform(700ms);
+    }
+
+    &__tags {
+      position: absolute;
+      left: 1.25rem;
+      top: 1.25rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.375rem;
+
+      span {
+        padding: 0.125rem 0.5rem;
+        border-radius: $radius-sm;
+        background-color: fade($paper, 40%);
+        font-family: $font-mono;
+        font-size: 10px;
+        text-transform: uppercase;
+        letter-spacing: $tracking-wider;
+        color: fade($ink, 80%);
+        @include glass(8px);
+      }
+    }
+  }
+
+  // ── Text ───────────────────────────────────────────────────────────────────
+  .project-body {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    padding: 1.5rem;
+
+    &__title {
+      margin-bottom: 0.25rem;
+      @include text(xl);
+      font-weight: 700;
+
+      a:hover {
+        color: $gold-300;
+      }
+    }
+
+    &__kind {
+      margin-bottom: 1rem;
+      @include eyebrow(0.2em);
+      color: $orange-400;
+    }
+
+    &__desc {
+      margin-bottom: 1rem;
+      color: $gray-300;
+    }
+
+    &__points {
+      flex: 1;
+      margin-bottom: 1.5rem;
+      @include stack(0.5rem);
+      @include text(sm);
+      color: $gray-400;
+
+      li {
+        display: flex;
+        gap: 0.625rem;
+      }
+    }
+
+    &__bullet {
+      flex-shrink: 0;
+      margin-top: 0.5rem;
+      width: 0.25rem;
+      height: 0.25rem;
+      border-radius: $radius-full;
+      background-color: $gold-400;
+    }
+
+    &__tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+
+      li {
+        padding: 0.25rem 0.625rem;
+        border: 1px solid fade($gold-500, 30%);
+        border-radius: $radius-md;
+        background-color: fade($gold-500, 10%);
+        @include mono(xs);
+        font-weight: 500;
+        color: $gold-300;
+      }
+    }
+  }
+}

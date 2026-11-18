@@ -1,0 +1,580 @@
+@use "../abstracts" as *;
+
+// About, phone edition: a stories deck (AboutStories.tsx).
+// The deck keeps a fixed dark palette in both themes, as stories do, so colours here are literal.
+
+$deck-bg: #120e0c;
+$deck-text: #f8fafc;
+$deck-border: #ffffff1a;
+$deck-muted: #ffffffb3;
+$deck-button: #ffffff1a;
+$deck-button-hover: #ffffff33;
+$story-amber: #f59e0b;
+$story-orange: #f97316;
+$story-rose: #f43f5e;
+$story-gradient: linear-gradient(to bottom right in oklab, #{$story-amber}, #{$story-orange}, #{$story-rose});
+
+.stories {
+  margin-inline: -1rem;
+
+  @include up(sm) {
+    margin-inline: 0;
+  }
+
+  @include up(lg) {
+    display: none;
+  }
+
+  &__deck {
+    position: relative;
+    margin-inline: auto;
+    width: 100%;
+    height: min(680px, calc(100svh - 17rem));
+    min-height: 420px;
+    overflow: hidden;
+    border: 1px solid $deck-border;
+    border-radius: 28px;
+    background-color: $deck-bg;
+    color: $deck-text;
+    box-shadow: shadow-2xl(fade($orange-500, 20%));
+    perspective: 1200px;
+    touch-action: pan-y;
+    user-select: none;
+
+    @include up(sm) {
+      max-width: $container-xl;
+    }
+
+    @include up(md) {
+      max-width: $container-2xl;
+    }
+
+    &:focus-visible {
+      outline: 2px solid #fdba74;
+      outline-offset: 4px;
+    }
+  }
+
+  // ── Header: progress segments, who, which story, pause ─────────────────────
+  &__header {
+    position: absolute;
+    inset-inline: 0;
+    top: 0;
+    z-index: 20;
+    padding: 0.75rem 1rem 1.5rem;
+    background-image: linear-gradient(to bottom, #120e0ccc, transparent);
+    pointer-events: none;
+  }
+
+  &__segments {
+    display: flex;
+    gap: 0.25rem;
+  }
+
+  &__segment {
+    flex: 1;
+    height: 3px;
+    overflow: hidden;
+    border-radius: $radius-full;
+    background-color: #ffffff40;
+  }
+
+  .seg-fill {
+    display: block;
+    height: 100%;
+    transform-origin: left;
+    scale: 0 1;
+    border-radius: $radius-full;
+    background-color: #fff;
+  }
+
+  &__meta {
+    margin-top: 0.75rem;
+    display: flex;
+    align-items: center;
+    gap: 0.625rem;
+  }
+
+  &__avatar {
+    @include center-grid;
+    width: 2rem;
+    height: 2rem;
+    border-radius: $radius-full;
+    background-image: $story-gradient;
+    @include text(xs);
+    font-weight: 700;
+    color: #fff;
+  }
+
+  &__name {
+    @include text(sm);
+    font-weight: 600;
+  }
+
+  &__label {
+    @include text(sm);
+    color: $deck-muted;
+  }
+
+  &__btn {
+    @include center-grid;
+    width: 2.75rem;
+    height: 2.75rem;
+    border-radius: $radius-full;
+    background-color: $deck-button;
+    @include transition-colors;
+
+    @include hover {
+      background-color: $deck-button-hover;
+    }
+
+    &--pause {
+      margin-left: auto;
+      width: 2.25rem;
+      height: 2.25rem;
+      pointer-events: auto;
+    }
+  }
+
+  // ── Footer: previous / counter / next ──────────────────────────────────────
+  &__footer {
+    position: absolute;
+    inset-inline: 0;
+    bottom: 0;
+    z-index: 20;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 1rem 1rem;
+  }
+
+  &__count {
+    @include mono(sm);
+    color: $deck-muted;
+  }
+
+  &__hint {
+    margin: 1rem auto 0;
+    max-width: $container-md;
+    padding-inline: 1rem;
+    text-align: center;
+    @include text(sm);
+    color: $gray-500;
+
+    @include up(sm) {
+      padding-inline: 0;
+    }
+  }
+}
+
+// ── A single story slide ─────────────────────────────────────────────────────
+.story {
+  @include fill;
+  isolation: isolate;
+  display: flex;
+  flex-direction: column;
+  padding: 6rem 1.25rem 5rem;
+
+  @include short {
+    padding-top: 5rem;
+    padding-bottom: 4rem;
+  }
+
+  &--code {
+    padding-inline: 1rem;
+  }
+
+  &--center {
+    justify-content: center;
+  }
+
+  &--motto {
+    justify-content: flex-end;
+    padding: 6rem 1.5rem;
+    background-image: linear-gradient(to bottom right in oklab, #d97706, #ea580c, #e11d48);
+
+    @include short {
+      padding-block: 5rem;
+    }
+  }
+
+  // Soft glow behind each story.
+  &__bg {
+    @include fill;
+    z-index: -1;
+    pointer-events: none;
+
+    &--code {
+      background-image: radial-gradient(ellipse at top, #f59e0b33, transparent 60%);
+    }
+    &--profile {
+      background-image:
+        radial-gradient(circle at 30% 30%, #f59e0b59, transparent 55%),
+        radial-gradient(circle at 80% 80%, #f973164d, transparent 50%);
+    }
+    &--toolkit {
+      background-image: radial-gradient(circle at 70% 20%, #f9731659, transparent 55%);
+    }
+    &--story {
+      background-image: radial-gradient(circle at 20% 80%, #f43f5e4d, transparent 55%);
+    }
+    &--work {
+      background-image: radial-gradient(circle at 80% 30%, #f59e0b4d, transparent 55%);
+    }
+  }
+
+  // 1. about.cpp ─────────────────────────────────────────────────────────────
+  .st-editor {
+    overflow: hidden;
+    border: 1px solid $editor-border;
+    border-radius: $radius-2xl;
+    background-color: $editor-bg;
+    box-shadow: shadow-2xl();
+
+    &__bar {
+      display: flex;
+      align-items: center;
+      gap: 0.375rem;
+      padding: 0.625rem 0.75rem;
+      border-bottom: 1px solid $editor-border;
+      background-color: $editor-bar;
+    }
+
+    &__light {
+      width: 0.625rem;
+      height: 0.625rem;
+      border-radius: $radius-full;
+
+      &--red {
+        background-color: $editor-red;
+      }
+      &--yellow {
+        background-color: $editor-yellow;
+      }
+      &--green {
+        background-color: $editor-green;
+      }
+    }
+
+    &__file {
+      margin-left: 0.5rem;
+      font-family: $font-mono;
+      font-size: 11px;
+      color: $editor-muted;
+    }
+
+    &__status {
+      position: relative;
+      margin-left: auto;
+      display: flex;
+      align-items: center;
+      gap: 0.375rem;
+      font-family: $font-mono;
+      font-size: 11px;
+      color: $editor-muted;
+    }
+
+    &__code {
+      padding: 0.875rem;
+      font-family: $font-mono;
+      font-size: 11px;
+      line-height: 1.5rem;
+      color: $editor-text;
+
+      @include up(sm) {
+        font-size: 13px;
+      }
+
+      @include up(md) {
+        padding: 1.25rem;
+        font-size: 15px;
+        line-height: 2rem;
+      }
+
+      @include short {
+        line-height: 1.25rem;
+      }
+    }
+  }
+
+  .st-dot {
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: $radius-full;
+    background-color: $editor-yellow;
+  }
+
+  .st-compiled {
+    visibility: hidden;
+    position: absolute;
+    right: 0;
+    color: $editor-success;
+  }
+
+  .st-line {
+    display: block;
+    white-space: pre-wrap;
+    overflow-wrap: break-word;
+    padding-left: 1.5rem;
+    text-indent: -1.5rem;
+
+    &__num {
+      display: inline-block;
+      width: 1rem;
+      margin-right: 0.5rem;
+      text-align: right;
+      color: $editor-line-number;
+      user-select: none;
+    }
+  }
+
+  .st-hint {
+    margin-top: auto;
+    text-align: center;
+    @include text(sm);
+    color: $deck-muted;
+
+    @include short {
+      display: none;
+    }
+  }
+
+  // 2. Profile ───────────────────────────────────────────────────────────────
+  .st-avatar {
+    @include center-grid;
+    width: 7rem;
+    height: 7rem;
+    border-radius: 2rem;
+    background-image: $story-gradient;
+    @include text(4xl);
+    font-weight: 700;
+    color: #fff;
+    box-shadow: shadow-2xl(#f9731666);
+
+    @include short {
+      width: 5rem;
+      height: 5rem;
+    }
+  }
+
+  &__name {
+    margin-top: 2rem;
+    @include text(5xl);
+    font-weight: 700;
+    letter-spacing: $tracking-tight;
+
+    @include short {
+      margin-top: 1.25rem;
+    }
+  }
+
+  &__title {
+    margin-top: 0.75rem;
+    @include text(xl);
+    font-weight: 600;
+    @include gradient-text(linear-gradient(to right, #fbbf24, #fb923c));
+  }
+
+  &__location {
+    margin-top: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    @include text(lg);
+    color: #e2e8f0;
+
+    svg {
+      color: #fb7185;
+    }
+  }
+
+  &__time {
+    margin-top: 0.5rem;
+    @include mono(sm);
+    color: #94a3b8;
+  }
+
+  // 3. Toolkit ───────────────────────────────────────────────────────────────
+  &__heading {
+    @include text(sm);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: #fed7aa;
+
+    &--stack {
+      margin-top: 2.5rem;
+      color: #fcd34d;
+
+      @include short {
+        margin-top: 1.5rem;
+      }
+    }
+  }
+
+  &__chips {
+    margin-top: 1rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .st-chip {
+    padding: 0.5rem 1rem;
+    border: 1px solid #fb923c66;
+    border-radius: $radius-full;
+    background-color: #f9731626;
+    @include text(base);
+    font-weight: 500;
+
+    @include short {
+      padding-block: 0.375rem;
+      @include text(sm);
+    }
+  }
+
+  &__stack {
+    margin-top: 1rem;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.75rem;
+
+    @include short {
+      gap: 0.5rem;
+    }
+  }
+
+  .st-logo {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem;
+    border: 1px solid $deck-border;
+    border-radius: $radius-2xl;
+    background-color: #ffffff0d;
+
+    @include short {
+      padding: 0.5rem;
+    }
+
+    &__name {
+      font-weight: 500;
+    }
+  }
+
+  // 4. My story ──────────────────────────────────────────────────────────────
+  .st-words {
+    font-size: 1.6rem;
+    font-weight: 600;
+    line-height: $leading-snug;
+    letter-spacing: $tracking-tight;
+
+    @include short {
+      font-size: 1.3rem;
+    }
+  }
+
+  // 5. How I work ────────────────────────────────────────────────────────────
+  &__steps {
+    position: relative;
+  }
+
+  &__path {
+    position: absolute;
+    top: 1.5rem;
+    bottom: 1.5rem;
+    left: 19px;
+    width: 0.25rem;
+    height: calc(100% - 3rem);
+    pointer-events: none;
+  }
+
+  &__step-list {
+    @include stack(1.75rem);
+
+    @include short {
+      @include stack(1rem);
+    }
+  }
+
+  .st-step {
+    position: relative;
+    display: flex;
+    gap: 1rem;
+
+    &__icon {
+      position: relative;
+      z-index: $z-content;
+      @include center-grid;
+      flex-shrink: 0;
+      width: 2.5rem;
+      height: 2.5rem;
+      border-radius: $radius-full;
+      background-image: linear-gradient(to bottom right in oklab, #{$story-amber}, #{$story-orange});
+      color: #fff;
+    }
+
+    &__title {
+      @include text(2xl);
+      font-weight: 700;
+      letter-spacing: $tracking-tight;
+
+      @include short {
+        @include text(xl);
+      }
+    }
+
+    &__text {
+      margin-top: 0.25rem;
+      color: #cbd5e1;
+
+      @include short {
+        @include text(sm);
+      }
+    }
+  }
+
+  // 6. Motto ─────────────────────────────────────────────────────────────────
+  .st-motto {
+    font-size: 3.4rem;
+    font-weight: 700;
+    line-height: 0.95;
+    letter-spacing: -0.03em;
+    color: #fff;
+
+    div {
+      vertical-align: top;
+    }
+  }
+
+  &__actions {
+    margin-top: 2rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+
+    @include short {
+      margin-top: 1.5rem;
+    }
+  }
+
+  &__talk,
+  &__cv {
+    padding: 0.75rem 1.5rem;
+    border-radius: $radius-full;
+    font-weight: 600;
+  }
+
+  &__talk {
+    background-color: #fff;
+    color: #111827;
+  }
+
+  &__cv {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #fff;
+    box-shadow: 0 0 0 2px #ffffffa6;
+  }
+}

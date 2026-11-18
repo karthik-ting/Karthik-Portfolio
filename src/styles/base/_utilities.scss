@@ -1,0 +1,45 @@
+@use "../abstracts" as *;
+
+// A handful of global helpers used across components.
+
+/// Visually hidden, still read by screen readers.
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+/// Spinning loader icon.
+.spin {
+  @include animate-spin;
+}
+
+/// Black logos (Next.js, GitHub) turned white on the dark background.
+.invert-dark {
+  filter: invert(1);
+}
+
+/// Always inverted (used inside the always-dark About stories).
+.invert {
+  filter: invert(1);
+}
+
+/// Faint grid, faded towards the edges.
+.bg-grid {
+  background-image:
+    linear-gradient(to right, #{$ink} 1px, transparent 1px),
+    linear-gradient(to bottom, #{$ink} 1px, transparent 1px);
+  background-size: 48px 48px;
+  mask-image: radial-gradient(ellipse at center, black 30%, transparent 75%);
+}
+
+/// Live clock digits don't jiggle.
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+}

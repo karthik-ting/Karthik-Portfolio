@@ -1,0 +1,47 @@
+@use "../abstracts" as *;
+
+// Follower cursor (Cursor.tsx). Hidden until GSAP shows it on fine pointers.
+.cursor-ring {
+  visibility: hidden;
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: $z-cursor;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border: 1px solid fade($ink, 50%);
+  border-radius: $radius-full;
+  pointer-events: none;
+}
+
+.cursor-label {
+  visibility: hidden;
+  @include text(xs);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: $tracking-widest;
+  color: $white;
+}
+
+.cursor-dot {
+  visibility: hidden;
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: $z-cursor + 1;
+  width: 0.375rem;
+  height: 0.375rem;
+  border-radius: $radius-full;
+  background-color: $white;
+  pointer-events: none;
+  mix-blend-mode: difference;
+}
+
+// Magnetic.tsx wrapper.
+.magnetic {
+  display: inline-block;
+  will-change: transform;
+}

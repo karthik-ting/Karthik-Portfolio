@@ -1,0 +1,351 @@
+@use "../abstracts" as *;
+
+// First screen (Hero.tsx).
+.hero {
+  position: relative;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  padding: 7rem $gutter 5rem;
+
+  @include up(md) {
+    min-height: 100svh;
+  }
+
+  // Giant outlined words drifting behind the content.
+  .hero-marquee {
+    position: absolute;
+    bottom: 8%;
+    left: 0;
+    font-size: 14vw;
+    font-weight: 900;
+    line-height: $leading-none;
+    text-transform: uppercase;
+    white-space: nowrap;
+    color: transparent;
+    -webkit-text-stroke: 1px $ink;
+    opacity: 0.06;
+    pointer-events: none;
+    user-select: none;
+  }
+
+  .hero-content {
+    visibility: hidden; // GSAP reveals it
+    position: relative;
+    z-index: $z-content;
+    @include container($container-7xl);
+    display: grid;
+    align-items: center;
+    gap: 3.5rem;
+    width: 100%;
+
+    @include up(lg) {
+      grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
+    }
+  }
+
+  &__intro {
+    text-align: center;
+
+    @include up(lg) {
+      text-align: left;
+    }
+  }
+
+  &__badge {
+    margin-bottom: 1.5rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.375rem 1rem;
+    border: 1px solid fade($ink, 10%);
+    border-radius: $radius-full;
+    background-color: fade($ink, 4%);
+    @include eyebrow(0.25em);
+    color: $gray-300;
+  }
+
+  &__title {
+    margin-bottom: 1.5rem;
+    @include text(5xl);
+    font-weight: 700;
+    line-height: 1.02;
+    letter-spacing: $tracking-tight;
+
+    @include up(md) {
+      font-size: 4.5rem;
+    }
+
+    @include up(xl) {
+      font-size: 6rem;
+    }
+  }
+
+  .hero-greeting {
+    display: inline-block;
+    vertical-align: top;
+
+    > div {
+      vertical-align: top;
+    }
+  }
+
+  .hero-name {
+    display: inline-block;
+    vertical-align: top;
+    padding-bottom: 0.5rem;
+    @include gradient-text(brand-gradient());
+    background-size: 200% auto; // GSAP slides this for the shimmer
+  }
+
+  .hero-role {
+    margin-bottom: 1.5rem;
+    height: 2.5rem;
+    @include mono(xl);
+    font-weight: 700;
+    color: $gold-400;
+
+    @include up(md) {
+      @include text(3xl);
+    }
+
+    &__prompt {
+      color: $gray-500;
+    }
+
+    &__caret {
+      margin-left: 0.25rem;
+      color: $orange-400;
+      @include animate-pulse;
+    }
+  }
+
+  &__lead {
+    margin: 0 auto 2.5rem;
+    max-width: $container-xl;
+    @include text(lg);
+    color: $gray-300;
+
+    @include up(md) {
+      @include text(xl);
+    }
+
+    @include up(lg) {
+      margin-inline: 0;
+    }
+  }
+
+  // Buttons.
+  .hero-cta {
+    margin-bottom: 2.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+
+    @include up(sm) {
+      flex-direction: row;
+    }
+
+    @include up(lg) {
+      justify-content: flex-start;
+    }
+  }
+
+  &__hire {
+    padding: 1rem 2rem;
+    border-radius: $radius-xl;
+    @include button-primary;
+    box-shadow: shadow-lg(fade($orange-500, 20%));
+    transition: box-shadow $duration $ease;
+
+    @include hover {
+      box-shadow: shadow-lg(fade($orange-500, 40%));
+    }
+  }
+
+  &__resume {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 1rem 2rem;
+    border: 1px solid fade($ink, 20%);
+    border-radius: $radius-xl;
+    font-weight: 600;
+    @include transition-colors;
+
+    @include hover {
+      border-color: $gold-400;
+      background-color: fade($gold-500, 10%);
+    }
+  }
+
+  &__socials {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+
+    @include up(lg) {
+      justify-content: flex-start;
+    }
+  }
+
+  .hero-social {
+    display: block;
+    padding: 0.75rem;
+    border: 1px solid $gray-700;
+    border-radius: $radius-xl;
+    @include transition-colors;
+
+    @include hover {
+      border-color: $orange-400;
+      background-color: fade($orange-400, 10%);
+    }
+  }
+
+  // Profile card on the right.
+  .hero-card {
+    position: relative;
+    margin-inline: auto;
+    width: 100%;
+    max-width: $container-md;
+
+    @include up(lg) {
+      margin-inline: 0;
+      justify-self: end;
+    }
+
+    &__glow {
+      position: absolute;
+      inset: -1.5rem;
+      border-radius: 2.5rem;
+      background-image: linear-gradient(
+        to bottom right in oklab,
+        #{fade($gold-500, 25%)},
+        #{fade($orange-500, 15%)},
+        #{fade($rose-500, 25%)}
+      );
+      filter: blur(64px);
+      pointer-events: none;
+    }
+
+    &__body {
+      position: relative;
+      overflow: hidden;
+      padding: 1.75rem;
+      @include card($radius-3xl, 80%);
+      @include glass(24px);
+    }
+
+    &__bar {
+      position: absolute;
+      inset-inline: 0;
+      top: 0;
+      height: 0.25rem;
+      background-image: brand-gradient();
+    }
+
+    &__head {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    &__avatar {
+      @include avatar;
+    }
+
+    &__name {
+      @include text(xl);
+      font-weight: 700;
+      letter-spacing: $tracking-tight;
+    }
+
+    &__title {
+      @include text(sm);
+      color: $gray-400;
+    }
+
+    &__facts {
+      margin-top: 1.75rem;
+      @include stack(1rem);
+      @include text(sm);
+    }
+
+    &__fact {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+    }
+
+    &__icon {
+      flex-shrink: 0;
+      margin-top: 0.125rem;
+
+      &--gold {
+        color: $gold-400;
+      }
+      &--orange {
+        color: $orange-400;
+      }
+      &--rose {
+        color: $rose-400;
+      }
+    }
+
+    &__strong {
+      font-weight: 600;
+    }
+
+    &__muted {
+      color: $gray-400;
+    }
+
+    &__text {
+      color: $gray-300;
+    }
+
+    &__time {
+      font-family: $font-mono;
+      color: $gray-400;
+    }
+
+    &__stats {
+      margin-top: 1.75rem;
+      padding-top: 1.5rem;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0.75rem;
+      border-top: 1px solid fade($ink, 10%);
+    }
+
+    &__stat {
+      padding: 0.75rem;
+      border-radius: $radius-xl;
+      background-color: fade($ink, 4%);
+      text-align: center;
+    }
+
+    &__stat-value {
+      @include text(2xl);
+      font-weight: 700;
+      @include gradient-text;
+    }
+
+    &__stat-label {
+      margin-top: 0.25rem;
+      font-size: 11px;
+      line-height: $leading-tight;
+      color: $gray-400;
+    }
+  }
+
+  .hero-scroll {
+    position: absolute;
+    bottom: 1.5rem;
+    left: 50%;
+    margin-left: -1rem;
+    color: $gray-400;
+  }
+}

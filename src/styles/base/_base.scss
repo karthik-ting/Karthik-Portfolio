@@ -1,0 +1,15 @@
+@use "../abstracts" as *;
+
+body {
+  background-color: $paper;
+  color: $ink;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+::selection {
+  background-color: fade($orange-500, 40%);
+  color: $ink;
+}
+

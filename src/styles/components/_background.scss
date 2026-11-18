@@ -1,0 +1,55 @@
+@use "../abstracts" as *;
+
+// Fixed background: glowing orbs, faint grid and rising tech logos (Background.tsx).
+.bg-scene {
+  @include fill;
+  position: fixed;
+  z-index: $z-background;
+  overflow: hidden;
+  pointer-events: none;
+
+  .orb-layer {
+    @include fill;
+  }
+
+  .orb {
+    position: absolute;
+    border-radius: $radius-full;
+    will-change: transform;
+
+    &--gold {
+      left: 0;
+      top: 0;
+      width: 60vmax;
+      height: 60vmax;
+      background-image: radial-gradient(circle, rgb(217 119 6 / 0.22), transparent 65%);
+    }
+
+    &--orange {
+      right: -10%;
+      top: 25%;
+      width: 55vmax;
+      height: 55vmax;
+      background-image: radial-gradient(circle, rgb(234 88 12 / 0.22), transparent 65%);
+    }
+
+    &--rose {
+      bottom: -25%;
+      left: 20%;
+      width: 50vmax;
+      height: 50vmax;
+      background-image: radial-gradient(circle, rgb(225 29 72 / 0.12), transparent 65%);
+    }
+  }
+
+  &__grid {
+    @include fill;
+    opacity: 0.07;
+  }
+
+  .floater {
+    position: absolute;
+    top: 0;
+    opacity: 0.2;
+  }
+}

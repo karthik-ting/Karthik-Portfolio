@@ -1,0 +1,17 @@
+@use "variables" as *;
+
+/// A colour at a given opacity, e.g. fade($ink, 10%).
+/// Works with CSS custom properties, so it follows the theme.
+@function fade($color, $amount) {
+  @return color-mix(in oklab, #{$color} #{$amount}, transparent);
+}
+
+/// Left-to-right (or any direction) gradient through the accent palette.
+@function brand-gradient($direction: to right) {
+  @return linear-gradient(#{$direction} in oklab, #{$gold-400}, #{$orange-400}, #{$rose-400});
+}
+
+/// Two-stop gold → orange gradient (buttons, text highlights).
+@function warm-gradient($direction: to right, $from: $gold-400, $to: $orange-400) {
+  @return linear-gradient(#{$direction} in oklab, #{$from}, #{$to});
+}

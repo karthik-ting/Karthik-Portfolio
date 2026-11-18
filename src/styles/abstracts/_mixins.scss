@@ -1,0 +1,178 @@
+@use "sass:map";
+@use "sass:list";
+@use "variables" as *;
+@use "functions" as *;
+
+// ── Responsive ───────────────────────────────────────────────────────────────
+
+/// From a breakpoint up: @include up(md) { ... }
+@mixin up($bp) {
+  @media (min-width: map.get($breakpoints, $bp)) {
+    @content;
+  }
+}
+
+/// Below a breakpoint: @include down(lg) { ... }
+@mixin down($bp) {
+  @media (width < map.get($breakpoints, $bp)) {
+    @content;
+  }
+}
+
+/// Short screens (phones in landscape, small laptops).
+@mixin short {
+  @media (max-height: 700px) {
+    @content;
+  }
+}
+
+/// Hover only on devices that can hover (no sticky hover on touch).
+@mixin hover {
+  @media (hover: hover) {
+    &:hover {
+      @content;
+    }
+  }
+}
+
+// ── Typography ───────────────────────────────────────────────────────────────
+
+/// Font size + matching line height from $font-sizes: @include text(xl)
+@mixin text($size) {
+  $pair: map.get($font-sizes, $size);
+  font-size: list.nth($pair, 1);
+  line-height: list.nth($pair, 2);
+}
+
+@mixin mono($size: xs) {
+  font-family: $font-mono;
+  @include text($size);
+}
+
+/// Small uppercase label, e.g. section eyebrows.
+@mixin eyebrow($tracking: 0.35em) {
+  @include mono(xs);
+  text-transform: uppercase;
+  letter-spacing: $tracking;
+}
+
+/// Gradient-filled text.
+@mixin gradient-text($gradient: warm-gradient()) {
+  background-image: $gradient;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+// ── Layout helpers ───────────────────────────────────────────────────────────
+
+@mixin center-grid {
+  display: grid;
+  place-items: center;
+}
+
+@mixin fill {
+  position: absolute;
+  inset: 0;
+}
+
+/// Vertical gap between children (like Tailwind's space-y-*).
+@mixin stack($gap) {
+  > :not(:last-child) {
+    margin-bottom: $gap;
+  }
+}
+
+/// Standard section padding.
+@mixin section {
+  position: relative;
+  padding: 2.5rem $gutter;
+
+  @include up(md) {
+    padding-block: 3.5rem;
+  }
+}
+
+@mixin container($max) {
+  margin-inline: auto;
+  max-width: $max;
+}
+
+// ── Surfaces ─────────────────────────────────────────────────────────────────
+
+/// Hairline-bordered card.
+@mixin card($radius: $radius-2xl, $bg-opacity: 70%) {
+  border: 1px solid fade($ink, 10%);
+  border-radius: $radius;
+  background-color: fade($surface, $bg-opacity);
+}
+
+@mixin glass($blur: 12px) {
+  -webkit-backdrop-filter: blur($blur);
+  backdrop-filter: blur($blur);
+}
+
+/// Gradient initials badge (hero card, about card).
+@mixin avatar($size: 4rem) {
+  @include center-grid;
+  flex-shrink: 0;
+  width: $size;
+  height: $size;
+  border-radius: $radius-2xl;
+  background-image: linear-gradient(to bottom right in oklab, #{$gold-500}, #{$orange-500}, #{$rose-500});
+  color: $white;
+  font-weight: 700;
+  @include text(xl);
+}
+
+/// Primary call-to-action button (gold → orange).
+@mixin button-primary {
+  background-image: warm-gradient(to right, $gold-500, $orange-500);
+  color: $white;
+  font-weight: 600;
+}
+
+// ── Shadows ──────────────────────────────────────────────────────────────────
+
+@function shadow-lg($color: rgb(0 0 0 / 0.1)) {
+  @return 0 10px 15px -3px $color, 0 4px 6px -4px $color;
+}
+@function shadow-xl($color: rgb(0 0 0 / 0.1)) {
+  @return 0 20px 25px -5px $color, 0 8px 10px -6px $color;
+}
+@function shadow-2xl($color: rgb(0 0 0 / 0.25)) {
+  @return 0 25px 50px -12px $color;
+}
+
+// ── Transitions ──────────────────────────────────────────────────────────────
+
+@mixin transition-colors($duration: $duration) {
+  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke;
+  transition-timing-function: $ease;
+  transition-duration: $duration;
+}
+
+@mixin transition-transform($duration: $duration) {
+  transition-property: transform, translate, scale, rotate;
+  transition-timing-function: $ease;
+  transition-duration: $duration;
+}
+
+@mixin transition-all($duration: $duration) {
+  transition-property: color, background-color, border-color, opacity, box-shadow, transform, translate, scale,
+    rotate, filter, backdrop-filter;
+  transition-timing-function: $ease;
+  transition-duration: $duration;
+}
+
+// ── Animations (keyframes live in base/_animations.scss) ─────────────────────
+
+@mixin animate-spin {
+  animation: spin 1s linear infinite;
+}
+@mixin animate-ping {
+  animation: ping 1s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+@mixin animate-pulse {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}

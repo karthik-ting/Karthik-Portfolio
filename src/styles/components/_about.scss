@@ -1,0 +1,370 @@
+@use "../abstracts" as *;
+
+// About section, desktop version (About.tsx). Phones get the stories deck (_about-stories.scss).
+.about {
+  @include section;
+
+  &__inner {
+    @include container($container-6xl);
+  }
+
+  .about-desktop {
+    display: none;
+
+    @include up(lg) {
+      display: block;
+    }
+  }
+
+  // Scene: code on the left renders the card on the right.
+  .about-scene {
+    display: grid;
+    align-items: center;
+    gap: 2rem;
+
+    @include up(lg) {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 3rem;
+    }
+  }
+
+  // ── Code editor card ───────────────────────────────────────────────────────
+  .code-card {
+    overflow: hidden;
+    border: 1px solid fade($ink, 10%);
+    border-radius: $radius-2xl;
+    background-color: $editor-bg;
+    box-shadow: shadow-2xl(fade($orange-500, 10%));
+
+    &__bar {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.75rem 1rem;
+      border-bottom: 1px solid $editor-border;
+      background-color: $editor-bar;
+    }
+
+    &__light {
+      width: 0.75rem;
+      height: 0.75rem;
+      border-radius: $radius-full;
+
+      &--red {
+        background-color: $editor-red;
+      }
+      &--yellow {
+        background-color: $editor-yellow;
+      }
+      &--green {
+        background-color: $editor-green;
+      }
+    }
+
+    &__file {
+      margin-left: 0.75rem;
+      @include mono(xs);
+      color: $editor-muted;
+    }
+
+    &__status {
+      position: relative;
+      margin-left: auto;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      @include mono(xs);
+      color: $editor-muted;
+    }
+
+    .status-dot {
+      width: 0.5rem;
+      height: 0.5rem;
+      border-radius: $radius-full;
+      background-color: $editor-yellow;
+    }
+
+    .status-compiled {
+      visibility: hidden;
+      position: absolute;
+      right: 0;
+      color: $editor-success;
+    }
+
+    &__code {
+      overflow-x: auto;
+      padding: 1.25rem;
+      font-family: $font-mono;
+      font-size: 12px;
+      line-height: 1.75rem;
+      color: $editor-text;
+
+      @include up(sm) {
+        font-size: 13px;
+      }
+
+      @include up(md) {
+        padding: 1.5rem;
+        font-size: 15px;
+      }
+    }
+
+    .code-line {
+      display: block;
+      white-space: pre-wrap;
+      overflow-wrap: break-word;
+      padding-left: 2rem;
+      text-indent: -2rem;
+
+      @include up(sm) {
+        white-space: pre;
+        padding-left: 0;
+        text-indent: 0;
+      }
+
+      &__num {
+        display: inline-block;
+        width: 1rem;
+        margin-right: 1rem;
+        text-align: right;
+        color: $editor-line-number;
+        user-select: none;
+      }
+    }
+  }
+
+  // ── Rendered profile card ──────────────────────────────────────────────────
+  &__output {
+    position: relative;
+  }
+
+  .profile-glow {
+    position: absolute;
+    inset: -1rem;
+    border-radius: 2rem;
+    background-image: linear-gradient(
+      to bottom right in oklab,
+      #{fade($gold-500, 30%)},
+      #{fade($orange-500, 20%)},
+      #{fade($rose-500, 30%)}
+    );
+    filter: blur(40px);
+    pointer-events: none;
+  }
+
+  .profile-card {
+    position: relative;
+    padding: 1.75rem;
+    @include card($radius-3xl, 90%);
+
+    @include up(md) {
+      padding: 2rem;
+    }
+
+    &__head {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    &__avatar {
+      @include avatar;
+    }
+
+    &__name {
+      @include text(2xl);
+      font-weight: 700;
+      letter-spacing: $tracking-tight;
+    }
+
+    &__tagline {
+      @include text(sm);
+      color: $gray-400;
+    }
+
+    &__role {
+      margin-top: 1.5rem;
+      @include text(lg);
+      font-weight: 600;
+    }
+
+    &__role-text {
+      @include gradient-text;
+    }
+
+    &__location {
+      margin-top: 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: $gray-300;
+
+      svg {
+        color: $rose-400;
+      }
+    }
+
+    &__chips {
+      margin-top: 1.5rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .strength-chip {
+      padding: 0.25rem 0.75rem;
+      border: 1px solid fade($orange-400, 30%);
+      border-radius: $radius-full;
+      background-color: fade($orange-500, 10%);
+      @include text(sm);
+      color: $orange-300;
+    }
+
+    &__stack {
+      margin-top: 1.5rem;
+      display: flex;
+      gap: 0.75rem;
+    }
+
+    .stack-logo {
+      @include center-grid;
+      width: 3rem;
+      height: 3rem;
+      border: 1px solid fade($ink, 10%);
+      border-radius: $radius-xl;
+      background-color: fade($ink, 4%);
+    }
+
+    &__motto {
+      position: relative;
+      margin-top: 1.75rem;
+      display: inline-block;
+      @include text(lg);
+      font-style: italic;
+      color: $gray-200;
+    }
+
+    .motto-underline {
+      position: absolute;
+      bottom: -0.25rem;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      transform-origin: left;
+      background-image: brand-gradient();
+    }
+  }
+
+  // ── Bio ────────────────────────────────────────────────────────────────────
+  .about-copy {
+    @include container($container-4xl);
+    margin-top: 4rem;
+    @include stack(2rem);
+    text-align: center;
+    @include text(xl);
+    line-height: $leading-relaxed;
+    color: $gray-100;
+
+    @include up(md) {
+      font-size: 1.875rem;
+      line-height: $leading-snug;
+    }
+  }
+
+  // ── Process: Analyse → Build → Automate ────────────────────────────────────
+  .process {
+    position: relative;
+    margin-top: 4rem;
+
+    &__line {
+      position: absolute;
+      inset-inline: 0;
+      top: 0;
+      display: none;
+      width: 100%;
+      height: 5rem;
+      pointer-events: none;
+
+      @include up(lg) {
+        display: block;
+      }
+    }
+
+    &__list {
+      display: grid;
+      gap: 1.5rem;
+
+      @include up(lg) {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+    }
+  }
+
+  .pillar {
+    position: relative;
+
+    @include up(lg) {
+      padding-top: 6rem;
+    }
+  }
+
+  .pillar-node {
+    position: absolute;
+    left: calc(50% - 10px);
+    top: 30px;
+    display: none;
+    width: 1.25rem;
+    height: 1.25rem;
+    border: 4px solid $paper;
+    border-radius: $radius-full;
+    background-image: warm-gradient(to bottom right, $gold-400, $rose-400);
+    box-shadow: 0 0 0 2px fade($orange-400, 60%);
+
+    @include up(lg) {
+      display: block;
+    }
+  }
+
+  .pillar-body {
+    height: 100%;
+    padding: 2rem;
+    @include card($radius-2xl, 60%);
+    @include transition-colors;
+
+    @include hover {
+      border-color: fade($orange-400, 40%);
+
+      .pillar-body__icon {
+        rotate: -12deg;
+        scale: 1.1;
+      }
+    }
+
+    &__head {
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    &__icon {
+      color: $orange-400;
+      @include transition-transform(500ms);
+    }
+
+    &__num {
+      @include mono(sm);
+      color: $gray-500;
+    }
+
+    &__title {
+      margin-bottom: 0.75rem;
+      @include text(2xl);
+      font-weight: 600;
+    }
+
+    &__text {
+      color: $gray-400;
+    }
+  }
+}

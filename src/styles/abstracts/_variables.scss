@@ -1,0 +1,123 @@
+// ─────────────────────────────────────────────────────────────────────────────
+// Design tokens. Change a value here and it updates everywhere.
+//
+// Theme-aware colours point at CSS custom properties (defined in base/_theme.scss),
+// so the light/dark switch keeps working. Edit the actual colour values there.
+// ─────────────────────────────────────────────────────────────────────────────
+
+// ── Theme-aware colours ──────────────────────────────────────────────────────
+$ink: var(--ink); // main text colour (white in dark, near-black in light)
+$paper: var(--paper); // page background
+$surface: var(--surface); // cards
+$surface-deep: var(--surface-deep); // preloader, mobile menu, form fields
+
+$gray-100: var(--gray-100);
+$gray-200: var(--gray-200);
+$gray-300: var(--gray-300);
+$gray-400: var(--gray-400);
+$gray-500: var(--gray-500);
+$gray-600: var(--gray-600);
+$gray-700: var(--gray-700);
+$gray-800: var(--gray-800);
+$gray-900: var(--gray-900);
+
+// Accent "ember" palette: gold → orange → rose.
+$gold-300: var(--gold-300);
+$gold-400: var(--gold-400);
+$gold-500: var(--gold-500);
+$gold-600: var(--gold-600);
+$orange-300: var(--orange-300);
+$orange-400: var(--orange-400);
+$orange-500: var(--orange-500);
+$orange-600: var(--orange-600);
+$rose-400: var(--rose-400);
+$rose-500: var(--rose-500);
+
+$danger: var(--danger);
+
+// ── Fixed colours (same in both themes) ──────────────────────────────────────
+$white: #fff;
+$black: #000;
+$emerald-400: oklch(76.5% 0.177 163.223);
+$emerald-500: oklch(69.6% 0.17 162.48);
+$focus-outline: oklch(70.8% 0 0 / 0.5);
+
+// Code editor (stays dark in both themes).
+$editor-bg: #15110f;
+$editor-bar: #1f1916;
+$editor-border: #ffffff14;
+$editor-text: #e5e7eb;
+$editor-muted: #8b949e;
+$editor-line-number: #484f58;
+$editor-red: #ff5f57;
+$editor-yellow: #febc2e;
+$editor-green: #28c840;
+$editor-success: #a5e844;
+
+// ── Typography ───────────────────────────────────────────────────────────────
+$font-sans: var(--font-sans), system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+$font-mono: var(--font-mono), ui-monospace, Menlo, Consolas, monospace;
+
+// name: (font-size, line-height)
+$font-sizes: (
+  xs: (0.75rem, 1.3333),
+  sm: (0.875rem, 1.4286),
+  base: (1rem, 1.5),
+  lg: (1.125rem, 1.5556),
+  xl: (1.25rem, 1.4),
+  2xl: (1.5rem, 1.3333),
+  3xl: (1.875rem, 1.2),
+  4xl: (2.25rem, 1.1111),
+  5xl: (3rem, 1),
+  6xl: (3.75rem, 1),
+  7xl: (4.5rem, 1),
+  8xl: (6rem, 1),
+);
+
+$leading-none: 1;
+$leading-tight: 1.25;
+$leading-snug: 1.375;
+$leading-relaxed: 1.625;
+
+$tracking-tight: -0.025em;
+$tracking-wider: 0.05em;
+$tracking-widest: 0.1em;
+
+// ── Radii ────────────────────────────────────────────────────────────────────
+$radius-sm: 0.25rem;
+$radius-md: 0.5rem;
+$radius-lg: 0.625rem;
+$radius-xl: 0.875rem;
+$radius-2xl: 1rem;
+$radius-3xl: 1.5rem;
+$radius-full: 9999px;
+
+// ── Layout ───────────────────────────────────────────────────────────────────
+$breakpoints: (
+  sm: 40rem,
+  md: 48rem,
+  lg: 64rem,
+  xl: 80rem,
+);
+
+$container-md: 28rem;
+$container-xl: 36rem;
+$container-2xl: 42rem;
+$container-3xl: 48rem;
+$container-4xl: 56rem;
+$container-6xl: 72rem;
+$container-7xl: 80rem;
+
+$gutter: 1.5rem; // side padding of sections
+
+// ── Motion ───────────────────────────────────────────────────────────────────
+$ease: cubic-bezier(0.4, 0, 0.2, 1);
+$duration: 150ms;
+
+// ── Z-index ──────────────────────────────────────────────────────────────────
+$z-background: 0;
+$z-content: 10;
+$z-menu: 40;
+$z-nav: 50;
+$z-cursor: 90;
+$z-preloader: 100;

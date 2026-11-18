@@ -1,0 +1,335 @@
+@use "../abstracts" as *;
+
+// Header bar (Nav.tsx). Turns into a glass bar once scrolled (.is-scrolled from ScrollTrigger).
+.site-nav {
+  position: fixed;
+  inset-inline: 0;
+  top: 0;
+  z-index: $z-nav;
+  border-bottom: 1px solid transparent;
+  transition: background-color 500ms $ease, border-color 500ms $ease, backdrop-filter 500ms $ease;
+
+  &.is-scrolled {
+    background-color: color-mix(in oklab, #{$paper} 55%, transparent);
+    border-color: rgb(var(--fg-rgb) / 0.06);
+    -webkit-backdrop-filter: blur(16px) saturate(1.4);
+    backdrop-filter: blur(16px) saturate(1.4);
+  }
+
+  &__inner {
+    @include container($container-7xl);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    padding: 1rem $gutter;
+    transition: padding 500ms $ease;
+
+    @include up(md) {
+      padding-inline: 2rem;
+    }
+
+    .is-scrolled & {
+      padding-block: 0.75rem;
+    }
+  }
+
+  // Desktop tabs: floating pill with a sliding, colour-inverting indicator.
+  &__menu {
+    display: none;
+
+    @include up(md) {
+      display: block;
+    }
+  }
+
+  .nav-shell {
+    position: relative;
+    isolation: isolate;
+    display: flex;
+    align-items: center;
+    padding: 0.25rem;
+    border: 1px solid fade($ink, 10%);
+    border-radius: $radius-full;
+    background-color: fade($paper, 70%);
+    @include glass(24px);
+  }
+
+  &__pill {
+    visibility: hidden;
+    position: absolute;
+    left: 0;
+    top: 0.25rem;
+    bottom: 0.25rem;
+    width: 0;
+    border-radius: $radius-full;
+    background-color: $ink;
+  }
+
+  &__item {
+    overflow: hidden;
+  }
+
+  .nav-tab {
+    position: relative;
+    display: flex;
+    align-items: flex-start;
+    gap: 0.25rem;
+    padding: 0.5rem 1rem;
+    border-radius: $radius-full;
+    @include text(sm);
+    font-weight: 500;
+    color: $white;
+    mix-blend-mode: difference;
+
+    @include up(lg) {
+      padding-inline: 1.25rem;
+    }
+
+    &__num {
+      font-family: $font-mono;
+      font-size: 9px;
+      line-height: $leading-none;
+      opacity: 0.5;
+    }
+  }
+
+  // Right-hand side: clock, "Let's talk", burger.
+  &__actions {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+
+    @include up(md) {
+      gap: 1rem;
+    }
+  }
+
+  &__clock {
+    display: none;
+    align-items: center;
+    gap: 0.5rem;
+    @include eyebrow($tracking-widest);
+    color: $gray-400;
+
+    @include up(lg) {
+      display: flex;
+    }
+  }
+
+  &__cta-wrap {
+    display: none;
+
+    @include up(md) {
+      display: block;
+    }
+  }
+
+  .nav-cta {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 0.5rem 0.5rem 1rem;
+    border-radius: $radius-full;
+    background-color: $ink;
+    @include text(sm);
+    font-weight: 600;
+    color: $paper;
+    @include transition-colors;
+
+    @include hover {
+      background-image: warm-gradient();
+
+      .nav-cta__arrow {
+        rotate: 45deg;
+      }
+    }
+
+    &__status {
+      position: relative;
+      display: flex;
+      width: 0.5rem;
+      height: 0.5rem;
+    }
+
+    &__ping {
+      position: absolute;
+      display: inline-flex;
+      width: 100%;
+      height: 100%;
+      border-radius: $radius-full;
+      background-color: $emerald-400;
+      opacity: 0.75;
+      @include animate-ping;
+    }
+
+    &__dot {
+      position: relative;
+      display: inline-flex;
+      width: 0.5rem;
+      height: 0.5rem;
+      border-radius: $radius-full;
+      background-color: $emerald-500;
+    }
+
+    &__arrow {
+      @include center-grid;
+      width: 1.75rem;
+      height: 1.75rem;
+      border-radius: $radius-full;
+      background-color: $paper;
+      color: $ink;
+      @include transition-transform(500ms);
+    }
+  }
+
+  // Mobile burger; morphs to ✕ with GSAP.
+  .burger {
+    position: relative;
+    z-index: $z-content;
+    @include center-grid;
+    width: 2.75rem;
+    height: 2.75rem;
+    border: 1px solid fade($ink, 15%);
+    border-radius: $radius-full;
+    background-color: fade($ink, 5%);
+    @include glass(12px);
+
+    @include up(md) {
+      display: none;
+    }
+  }
+
+  .burger-top,
+  .burger-bot {
+    position: absolute;
+    left: calc(50% - 10px);
+    width: 1.25rem;
+    height: 0.125rem;
+    border-radius: $radius-full;
+    background-color: $ink;
+  }
+
+  .burger-top {
+    top: calc(50% - 4.5px);
+  }
+
+  .burger-bot {
+    top: calc(50% + 2.5px);
+  }
+
+  // Scroll progress line along the bottom edge.
+  .nav-progress {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    transform-origin: left;
+    scale: 0 1;
+    background-image: brand-gradient();
+  }
+}
+
+// Mobile full-screen menu (GSAP sets display: flex when opened).
+.mobile-menu {
+  @include fill;
+  position: fixed;
+  z-index: $z-menu;
+  display: none;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100dvh;
+  padding: 7rem $gutter 2.5rem;
+  background-color: $surface-deep;
+
+  &__glow {
+    position: absolute;
+    right: -6rem;
+    top: 33.333%;
+    width: 18rem;
+    height: 18rem;
+    border-radius: $radius-full;
+    background-color: fade($orange-600, 30%);
+    filter: blur(100px);
+    pointer-events: none;
+  }
+
+  &__label {
+    @include eyebrow(0.3em);
+    color: $gray-500;
+  }
+
+  &__list {
+    @include stack(0.5rem);
+  }
+
+  &__item {
+    overflow: hidden;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid fade($ink, 10%);
+  }
+
+  .mobile-link {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    @include text(5xl);
+    font-weight: 700;
+    letter-spacing: $tracking-tight;
+    color: fade($ink, 70%);
+
+    &.is-active {
+      color: $ink;
+    }
+
+    &__num {
+      @include mono(sm);
+      font-weight: 400;
+      color: $gray-500;
+    }
+  }
+
+  &__bottom {
+    @include stack(1.5rem);
+  }
+
+  &__email {
+    display: block;
+    @include text(lg);
+    color: $gray-300;
+    text-underline-offset: 4px;
+
+    @include hover {
+      text-decoration: underline;
+    }
+  }
+
+  &__footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  &__socials {
+    display: flex;
+    gap: 0.75rem;
+  }
+
+  &__social {
+    @include center-grid;
+    width: 2.75rem;
+    height: 2.75rem;
+    border: 1px solid fade($ink, 15%);
+    border-radius: $radius-full;
+  }
+
+  &__clock {
+    @include eyebrow($tracking-widest);
+    color: $gray-500;
+  }
+
+  @include up(md) {
+    display: none;
+  }
+}

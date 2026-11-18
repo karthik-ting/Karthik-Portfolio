@@ -1,0 +1,38 @@
+// ─────────────────────────────────────────────────────────────────────────────
+// Theme colours. The site is dark only.
+// Components use the SCSS variables in abstracts/_variables.scss, which point here.
+// ─────────────────────────────────────────────────────────────────────────────
+
+:root {
+  color-scheme: dark;
+  --fg-rgb: 255 255 255; // foreground as raw RGB, for colours tweened by GSAP (Cursor)
+
+  --ink: #fff;
+  --paper: #0c0a09; // warm near-black
+  --surface: #1c1917; // warm card surface
+  --surface-deep: #0f0d0c;
+
+  --gray-100: oklch(96.7% 0.003 264.542);
+  --gray-200: oklch(92.8% 0.006 264.531);
+  --gray-300: oklch(87.2% 0.01 258.338);
+  --gray-400: oklch(70.7% 0.022 261.325);
+  --gray-500: oklch(55.1% 0.027 264.364);
+  --gray-600: oklch(44.6% 0.03 256.802);
+  --gray-700: oklch(37.3% 0.034 259.733);
+  --gray-800: oklch(27.8% 0.033 256.848);
+  --gray-900: oklch(21% 0.034 264.665);
+
+  // Ember accent. The 500/600 steps are deep enough to carry white text at 4.5:1.
+  --gold-300: #fcd34d;
+  --gold-400: #fbbf24;
+  --gold-500: #b45309;
+  --gold-600: #92400e;
+  --orange-300: #fdba74;
+  --orange-400: #fb923c;
+  --orange-500: #c2410c;
+  --orange-600: #9a3412;
+  --rose-400: #fb7185;
+  --rose-500: #e11d48;
+
+  --danger: oklch(70.4% 0.191 22.216);
+}

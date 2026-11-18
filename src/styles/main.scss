@@ -1,0 +1,31 @@
+// ─────────────────────────────────────────────────────────────────────────────
+// Site stylesheet entry point (imported once in src/app/layout.tsx).
+//
+//   abstracts/   variables, functions and mixins (no CSS output)
+//   base/        theme colours, reset, page defaults, global helpers
+//   components/  one partial per component in src/components
+//
+// To restyle: colours → base/_theme.scss, sizes/fonts/radii → abstracts/_variables.scss,
+// a single component → its file in components/.
+// ─────────────────────────────────────────────────────────────────────────────
+
+@use "base/theme";
+@use "base/reset";
+@use "base/animations";
+@use "base/base";
+@use "base/utilities";
+
+@use "components/layout";
+@use "components/background";
+@use "components/cursor";
+@use "components/preloader";
+@use "components/text-effects";
+@use "components/nav";
+@use "components/hero";
+@use "components/about";
+@use "components/about-stories";
+@use "components/experience";
+@use "components/projects";
+@use "components/skills";
+@use "components/contact";
+@use "components/cv-viewer";

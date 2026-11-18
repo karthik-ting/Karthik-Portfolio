@@ -1,0 +1,164 @@
+@use "../abstracts" as *;
+
+// ── Logo.tsx: wordmark whose letters roll to a gradient copy on hover ────────
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: $leading-none;
+  letter-spacing: $tracking-tight;
+
+  @include up(md) {
+    font-size: 1.7rem;
+  }
+
+  &__letters {
+    display: flex;
+  }
+
+  &__mask {
+    display: inline-block;
+    overflow: hidden;
+    padding-bottom: 0.12em;
+  }
+
+  .logo-char,
+  .logo-roll {
+    display: inline-block;
+  }
+
+  .logo-roll {
+    position: relative;
+  }
+
+  &__glyph {
+    display: block;
+
+    &--hover {
+      position: absolute;
+      left: 0;
+      top: 100%;
+      @include gradient-text(warm-gradient(to bottom));
+    }
+  }
+
+  .logo-dot {
+    display: inline-block;
+    align-self: flex-end;
+    margin-bottom: 0.1em;
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: $radius-full;
+    background-image: warm-gradient(to bottom right, $gold-400, $rose-400);
+  }
+}
+
+// ── RollText.tsx: letters roll up to reveal a second copy ────────────────────
+.roll-text {
+  &__letters {
+    display: inline-flex;
+  }
+
+  &__mask {
+    display: inline-block;
+    overflow: hidden;
+  }
+
+  .roll-inner {
+    position: relative;
+    display: inline-block;
+    padding-bottom: 0.12em;
+  }
+
+  &__copy {
+    position: absolute;
+    left: 0;
+    top: 100%;
+
+    &--gradient {
+      @include gradient-text;
+    }
+  }
+}
+
+// ── SectionHeading.tsx ───────────────────────────────────────────────────────
+.section-heading {
+  margin-bottom: 2.5rem;
+  text-align: left;
+
+  @include up(md) {
+    margin-bottom: 3.5rem;
+  }
+
+  .heading-eyebrow {
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    @include eyebrow(0.35em);
+    color: $orange-400;
+  }
+
+  &__rule {
+    flex: 1;
+    max-width: 12rem;
+    height: 1px;
+    background-image: linear-gradient(to right, #{fade($orange-400, 60%)}, transparent);
+  }
+
+  &__title {
+    margin-bottom: 1.5rem;
+    @include text(4xl);
+    font-weight: 700;
+    letter-spacing: $tracking-tight;
+
+    @include up(md) {
+      @include text(6xl);
+    }
+  }
+
+  .heading-lead {
+    display: inline-block;
+    vertical-align: top;
+
+    > div {
+      vertical-align: top;
+    }
+  }
+
+  .heading-accent {
+    display: inline-block;
+    vertical-align: top;
+    padding-bottom: 0.25rem;
+    @include gradient-text;
+  }
+
+  .heading-body {
+    max-width: $container-2xl;
+    @include text(lg);
+    color: $gray-300;
+
+    @include up(md) {
+      @include text(xl);
+    }
+  }
+}
+
+// ── Code-editor syntax colours (aboutData.tsx) ───────────────────────────────
+.tok-keyword {
+  color: #c792ea;
+}
+.tok-var {
+  color: #fcd34d;
+}
+.tok-punct {
+  color: #6b7280;
+}
+.tok-string {
+  color: $editor-success;
+}
+.tok-key {
+  color: #fb923c;
+}

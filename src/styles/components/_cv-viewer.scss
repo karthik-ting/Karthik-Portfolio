@@ -1,0 +1,138 @@
+@use "../abstracts" as *;
+
+// /cv page (CvViewer.tsx).
+.cv {
+  min-height: 100dvh;
+  background-color: $paper;
+  color: $ink;
+
+  &__header {
+    position: sticky;
+    top: 0;
+    z-index: $z-content;
+    border-bottom: 1px solid fade($ink, 10%);
+    background-color: fade($paper, 80%);
+    @include glass(12px);
+  }
+
+  &__hairline {
+    position: absolute;
+    inset-inline: 0;
+    bottom: 0;
+    height: 1px;
+    background-image: brand-gradient();
+    opacity: 0.6;
+  }
+
+  &__bar {
+    @include container($container-3xl);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    padding: 0.75rem 1rem;
+  }
+
+  &__back {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    border: 1px solid fade($ink, 15%);
+    border-radius: $radius-full;
+    @include text(sm);
+    font-weight: 600;
+    @include transition-colors;
+
+    @include hover {
+      background-color: fade($ink, 10%);
+    }
+  }
+
+  &__title {
+    font-family: $font-mono;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.3em;
+    color: $gray-400;
+  }
+
+  &__download {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    border-radius: $radius-full;
+    @include button-primary;
+    @include text(sm);
+  }
+
+  &__download-label {
+    display: none;
+
+    @include up(sm) {
+      display: inline;
+    }
+  }
+
+  // Desktop: the browser's own PDF viewer.
+  &__frame {
+    display: block;
+    width: 100%;
+    height: calc(100dvh - 4rem);
+    border: 0;
+    background-color: $white;
+  }
+
+  // Touch devices: pages drawn with pdf.js.
+  &__pages-wrap {
+    @include container($container-3xl);
+    padding: 1.5rem 1rem;
+
+    &.is-hidden {
+      display: none;
+    }
+  }
+
+  &__status {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding-block: 6rem;
+    color: $gray-400;
+  }
+
+  &__error {
+    padding-block: 6rem;
+    text-align: center;
+    color: $gray-300;
+
+    a {
+      margin-top: 0.75rem;
+      display: inline-block;
+      color: $orange-400;
+      text-decoration: underline;
+      text-underline-offset: 4px;
+    }
+  }
+
+  &__pages {
+    @include stack(1rem);
+  }
+}
+
+// One rendered PDF page (created in JS).
+.cv-page {
+  position: relative;
+  overflow: hidden;
+  border-radius: $radius-lg;
+  background-color: $white;
+  box-shadow: shadow-2xl(fade($paper, 40%));
+
+  &__canvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+}

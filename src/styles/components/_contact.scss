@@ -1,0 +1,411 @@
+@use "../abstracts" as *;
+
+// Contact section, enquiry form, footer and back-to-top button (Contact.tsx).
+.contact {
+  @include section;
+
+  &__inner {
+    @include container($container-4xl);
+    text-align: center;
+  }
+
+  &__eyebrow {
+    margin-bottom: 1.5rem;
+    @include eyebrow(0.4em);
+    color: $orange-400;
+  }
+
+  &__title-wrap {
+    position: relative;
+    display: inline-block;
+    margin-bottom: 3rem;
+  }
+
+  .contact-title {
+    @include text(5xl);
+    font-weight: 700;
+    letter-spacing: $tracking-tight;
+
+    @include up(md) {
+      @include text(8xl);
+    }
+  }
+
+  &__underline {
+    position: absolute;
+    bottom: -1rem;
+    left: 0;
+    width: 100%;
+  }
+
+  .contact-copy {
+    @include stack(1.5rem);
+    @include text(lg);
+    line-height: $leading-relaxed;
+    color: $gray-300;
+
+    @include up(md) {
+      font-size: 1.25rem;
+    }
+
+    &__note {
+      color: $gray-400;
+    }
+  }
+
+  &__em {
+    font-weight: 600;
+    color: $ink;
+  }
+
+  .contact-cta {
+    margin-top: 3.5rem;
+  }
+
+  // "Prefer direct?" email / phone pills.
+  &__direct {
+    margin-top: 2.5rem;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem 0.75rem;
+    font-size: 0.875rem;
+    line-height: $leading-none;
+    color: $gray-500;
+  }
+
+  &__pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.625rem 1rem;
+    border: 1px solid fade($ink, 10%);
+    border-radius: $radius-full;
+    background-color: $surface;
+    line-height: $leading-none;
+    color: $gray-200;
+    @include transition-colors;
+
+    svg {
+      flex-shrink: 0;
+    }
+
+    @include hover {
+      border-color: fade($orange-400, 60%);
+      color: $orange-400;
+    }
+  }
+}
+
+// ── Enquiry form ─────────────────────────────────────────────────────────────
+.enquiry {
+  position: relative;
+  @include container($container-2xl);
+  overflow: hidden;
+  padding: 1.5rem;
+  border: 1px solid fade($ink, 10%);
+  border-radius: $radius-3xl;
+  background-color: $surface;
+  text-align: left;
+  box-shadow: shadow-2xl(fade($paper, 20%));
+
+  @include up(md) {
+    padding: 2.5rem;
+  }
+
+  // "Message received" state.
+  &--sent {
+    padding: 2.5rem;
+    text-align: center;
+
+    @include up(md) {
+      padding: 2.5rem;
+    }
+  }
+
+  &__check {
+    margin: 0 auto 1rem;
+    color: $orange-400;
+  }
+
+  &__sent-title {
+    @include text(2xl);
+    font-weight: 600;
+  }
+
+  &__sent-text {
+    margin-top: 0.5rem;
+    color: $gray-400;
+  }
+
+  &__again {
+    margin-top: 1.5rem;
+    @include eyebrow(0.3em);
+    color: $orange-400;
+
+    &:hover {
+      color: $rose-400;
+    }
+  }
+
+  // Form layout.
+  &__hairline {
+    position: absolute;
+    inset-inline: 0;
+    top: 0;
+    height: 1px;
+    background-image: brand-gradient();
+  }
+
+  &__head {
+    margin-bottom: 2rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid fade($ink, 10%);
+  }
+
+  &__title {
+    @include text(2xl);
+    font-weight: 600;
+    letter-spacing: $tracking-tight;
+
+    @include up(md) {
+      @include text(3xl);
+    }
+  }
+
+  &__intro {
+    margin-top: 0.5rem;
+    @include text(base);
+    color: $gray-400;
+  }
+
+  &__honey {
+    display: none;
+  }
+
+  &__grid {
+    display: grid;
+    gap: 1.25rem;
+
+    @include up(sm) {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  &__select {
+    margin-top: 1.25rem;
+  }
+
+  &__select-wrap {
+    position: relative;
+    display: block;
+  }
+
+  &__chevron {
+    position: absolute;
+    right: 1rem;
+    top: 50%;
+    translate: 0 -50%;
+    color: $gray-400;
+    pointer-events: none;
+  }
+
+  &__message {
+    margin-top: 1.75rem;
+  }
+
+  &__footer {
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    display: flex;
+    flex-direction: column-reverse;
+    gap: 1rem;
+    border-top: 1px solid fade($ink, 10%);
+
+    @include up(sm) {
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+    }
+  }
+
+  &__status {
+    @include text(sm);
+  }
+
+  &__error {
+    color: $danger;
+  }
+
+  &__note {
+    color: $gray-500;
+  }
+
+  &__submit {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.625rem;
+    width: 100%;
+    padding: 0.875rem 2rem;
+    border-radius: $radius-full;
+    @include button-primary;
+    @include text(base);
+    box-shadow: shadow-lg(fade($orange-500, 25%));
+    transition: box-shadow $duration $ease;
+
+    @include up(sm) {
+      width: auto;
+    }
+
+    @include hover {
+      box-shadow: shadow-lg(fade($orange-500, 50%));
+    }
+
+    &:focus-visible {
+      outline: 2px solid $orange-400;
+      outline-offset: 4px;
+    }
+
+    &:disabled {
+      opacity: 0.6;
+    }
+  }
+}
+
+// ── Form fields ──────────────────────────────────────────────────────────────
+.field-label {
+  display: block;
+
+  &--full {
+    @include up(sm) {
+      grid-column: span 2 / span 2;
+    }
+  }
+
+  &__text {
+    display: block;
+    margin-bottom: 0.5rem;
+    @include text(sm);
+    font-weight: 500;
+    color: $gray-200;
+
+    &--split {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+  }
+
+  &__req {
+    color: $danger;
+  }
+
+  &__hint {
+    @include text(xs);
+    font-weight: 400;
+    color: $gray-500;
+  }
+}
+
+.field {
+  width: 100%;
+  padding-inline: 1rem;
+  border: 1px solid fade($ink, 15%);
+  border-radius: $radius-xl;
+  background-color: $surface-deep;
+  @include text(base);
+  color: $ink;
+  outline: none;
+  transition: border-color $duration $ease, box-shadow $duration $ease;
+
+  &::placeholder {
+    color: $gray-500;
+  }
+
+  &:focus {
+    border-color: $orange-400;
+    box-shadow: 0 0 0 4px fade($orange-400, 15%);
+  }
+
+  &--input {
+    height: 3rem;
+  }
+
+  &--select {
+    height: 3rem;
+    padding-right: 2.75rem;
+    cursor: pointer;
+    appearance: none;
+
+    &.is-placeholder {
+      color: $gray-500;
+    }
+
+    option {
+      background-color: $surface;
+      color: $ink;
+    }
+  }
+
+  &--textarea {
+    padding-block: 0.75rem;
+    line-height: $leading-relaxed;
+    resize: vertical;
+  }
+}
+
+// ── Footer ───────────────────────────────────────────────────────────────────
+.site-footer {
+  position: relative;
+  padding: 2rem $gutter;
+  border-top: 1px solid fade($ink, 10%);
+
+  &__inner {
+    @include container($container-7xl);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+
+    @include up(md) {
+      flex-direction: row;
+    }
+  }
+
+  &__copy {
+    @include text(sm);
+    color: $gray-400;
+  }
+
+  &__links {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+  }
+
+  &__link {
+    color: $gray-400;
+    @include transition-colors;
+
+    @include hover {
+      color: $orange-400;
+    }
+  }
+}
+
+// ── Back to top ──────────────────────────────────────────────────────────────
+.back-to-top {
+  visibility: hidden; // GSAP reveals it after scrolling
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  z-index: $z-menu;
+  padding: 0.75rem;
+  border-radius: $radius-full;
+  @include button-primary;
+  box-shadow: shadow-lg();
+}
